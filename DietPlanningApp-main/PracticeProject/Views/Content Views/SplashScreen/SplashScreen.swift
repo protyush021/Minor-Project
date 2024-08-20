@@ -13,6 +13,7 @@ struct SplashScreen: View {
     //MARK: - Property Wrappers for variables
     
     @State var isSplashScreenActive: Bool = false
+    @StateObject private var vm = ScannerViewModel()
 
     @Query(filter: #Predicate<UserDataModel> { data in
         data.isLoginApproved == true
@@ -28,8 +29,9 @@ struct SplashScreen: View {
             if self.isSplashScreenActive {
                 if fetchDataBase.count > 0 {
                     if fetchDataBase[0].isLoginApproved {
-                        TabListView().navigationBarBackButtonHidden()
-                        
+                        TabListView()
+                            .environmentObject(vm)
+                            .navigationBarBackButtonHidden()                        
                     } else { LogInView() }
                 } else { LogInView() }
                 

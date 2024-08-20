@@ -13,7 +13,7 @@ struct AddWorkoutSheduleView: View {
     @State private var selectedDay: String = "Monday"
     @State   var arrDays:[String] = ["Monday", "Tuesday", "Wednesday", "Thursday","Friday", "Saturday", "Sunday"]
     @State var showIndicator : Bool = false
-    
+    @EnvironmentObject var vm: ScannerViewModel
     @Binding var strSelectedType : String
     @Binding var sheduleChart: [SheduleWorkoutModel]
     

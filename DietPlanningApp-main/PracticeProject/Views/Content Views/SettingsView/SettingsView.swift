@@ -13,7 +13,7 @@ struct SettingsView: View {
     //MARK: - Property Wrappers for variables
     @AppStorage("active_icon") var activeAppIcon : String = "AppIcon"
     @StateObject var notificationManager = NotificationManager()
-    
+    @EnvironmentObject var vm: ScannerViewModel
     @Environment(\.presentationMode) var presentationMode
     @Environment(\.modelContext) var dataFromDataBase
     @Query(filter: #Predicate<UserDataModel> { data in
