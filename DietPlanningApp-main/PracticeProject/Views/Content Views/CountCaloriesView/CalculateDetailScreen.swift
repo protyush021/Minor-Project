@@ -7,7 +7,6 @@ struct CalculateDetailScreen: View {
     
     //MARK: - Property Wrappers for variables
     @Binding var calCountDatabase: [CalorieModel]
-    
     @State private var foodName: String = ""
     @State private var foodTotalCalories: String = ""
     @State private var consumedQuantity: String = ""

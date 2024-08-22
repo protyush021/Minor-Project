@@ -11,6 +11,7 @@ import SwiftData
 struct SheduleWorkOutView: View {
     
     @State private var userWorkout: [SheduleWorkoutModel] = []
+    @EnvironmentObject var vm: ScannerViewModel
     @State private var presentWorkoutSheet : Bool = false
     @Environment (\.modelContext) var formData
     @State var selectedDay = ""

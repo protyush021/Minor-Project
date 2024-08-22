@@ -11,6 +11,7 @@ import Charts
 
 struct UserStatisticsView: View {
     @Environment(\.modelContext) var formData
+    @EnvironmentObject var vm: ScannerViewModel
     
     @State var totalCaloriesStr : String = "0"
     @State private var drawingStroke = false

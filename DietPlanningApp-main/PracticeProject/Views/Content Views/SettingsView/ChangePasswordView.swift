@@ -12,7 +12,7 @@ struct ChangePasswordView: View {
     @Binding var textFeildStr: String
     @State var sheetTitle : String = ""
     @State var iconImg : String = ""
-    
+    @EnvironmentObject var vm: ScannerViewModel
     var placeHolder: String = ""
     var strUsername: String = ""
     var editButtonClicked: (() -> Void)?

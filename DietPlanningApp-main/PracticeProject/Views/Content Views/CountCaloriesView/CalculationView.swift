@@ -11,6 +11,7 @@ struct CalculationView: View {
     
     //MARK: - Property Wrappers for variables
     @Environment(\.modelContext) var formData
+    @EnvironmentObject var vm: ScannerViewModel
     @State private var isSheetPresented = false
     @State private var foodDataStorage: [CalorieModel] = []
     @State var deleteSheetClicked : Bool = false

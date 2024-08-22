@@ -11,6 +11,7 @@ import SwiftData
 struct UserHomeScreen: View {
     @Namespace var profileAnimation
     @Environment(\.modelContext) var formData
+    @EnvironmentObject var vm: ScannerViewModel
     
     @State private var foodDataStorage: [CalorieModel]      = []
     @State private var arrHomeItems   : [ActivityCardModel] = [

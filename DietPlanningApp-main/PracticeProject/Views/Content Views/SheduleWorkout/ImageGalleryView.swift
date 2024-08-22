@@ -12,6 +12,7 @@ struct ImageGalleryView: View {
     @StateObject var apiManager = APIManager()
     @State var isImageExpanded : Bool = false
     @State var imageSelected : UIImage?
+    @EnvironmentObject var vm: ScannerViewModel
     
     let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
     var body: some View {

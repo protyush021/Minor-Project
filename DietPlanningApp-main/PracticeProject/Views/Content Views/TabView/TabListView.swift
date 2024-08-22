@@ -12,9 +12,10 @@ struct TabListView: View {
    
     //MARK: - Property Wrappers for variables
     @Namespace var profileAnimation
-    
     @State private var selectedTab: Int = 0
     @State private var profileImageExpanded: Bool = false
+    @EnvironmentObject var vm: ScannerViewModel
+    @StateObject var nutriVM = NutritionViewModel()
     
     @Query(filter: #Predicate<UserDataModel> { data in
             data.isLoginApproved == true
@@ -44,13 +45,16 @@ struct TabListView: View {
                             }
                         }
                 }.tabItem { Label("Home", systemImage: "house") }.tag(0)
-                CalculationView()
+                LogFoodView()
+                    .environmentObject(vm)
                     .tabItem { Label("Count Calories", systemImage: "fork.knife.circle") }.tag(1)
                 
                 SheduleWorkOutView()
+                    .environmentObject(vm)
                     .tabItem { Label("Shedule Workout", systemImage: "dumbbell") }.tag(2)
                 
                 SettingsView()
+                    .environmentObject(vm)
                     .tabItem { Label("Settings", systemImage: "gear") }.tag(3)
                 
             }.background(.ultraThinMaterial)
