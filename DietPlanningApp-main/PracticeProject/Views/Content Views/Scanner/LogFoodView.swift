@@ -119,73 +119,96 @@ struct LogFoodView: View {
         
     }
     
-    private var headerView: some View{
+    private var headerView: some View {
         HStack {
-            Spacer()
             NavigationLink(destination: BarCodeScannerView().environmentObject(vm)) {
-                HStack(spacing: 9) {
+                HStack(spacing: 4) {
                     Image(systemName: "barcode.viewfinder")
-                        .font(Font.title.weight(.bold))
+                        .font(Font.body.weight(.bold))
                     
-                    VStack{
+                    VStack {
                         Text("Scan")
-                            .font(.headline)
+                            .font(.footnote)
                             .fontWeight(.bold)
                         Text("Barcode")
-                            .font(.headline)
+                            .font(.footnote) 
                             .fontWeight(.bold)
                     }
+                    .lineLimit(1)
                 }
-                
-                .padding()
+                .padding(8)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .foregroundColor(Color.primary)
                 .background(Color("EmeraldL").opacity(0.3))
-                .cornerRadius(20)
+                .cornerRadius(12)
             }
             .task {
-                
                 vm.isScannerActive = true
                 await vm.requestDataScannerAccessStatus()
             }
-            .padding()
+            .padding(.leading, 2)
+            .padding(.trailing, 2)
             .background(Color.clear)
-            .clipShape(RoundedRectangle(cornerRadius: 20))
-            .frame(width: screenSize.width * 0.475, height: screenSize.width * 0.175)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .frame(width: screenSize.width * 0.3, height: screenSize.width * 0.175)
             
-            NavigationLink(destination: ManualLogView(calCountDatabase: $calCountDatabase)) {
-                
-                HStack(spacing: 9) {
-                    Image(systemName: "pencil.and.list.clipboard")
-                        .font(Font.title.weight(.bold))
-                    VStack{
-                        Text("Manual")
-                            .font(.headline)
+            NavigationLink(destination: ScanPhotoView()) {
+                HStack(spacing: 4) {
+                    Image(systemName: "camera.fill")
+                        .font(Font.body.weight(.bold))
+                    
+                    VStack {
+                        Text("Scan")
+                            .font(.footnote)
                             .fontWeight(.bold)
-                        Text("Entry")
-                            .font(.headline)
+                        Text("Food")
+                            .font(.footnote)
                             .fontWeight(.bold)
                     }
+                    .lineLimit(1)
                 }
-               
-                .padding()
+                .padding(8)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .foregroundColor(Color.primary)
+                .background(Color("EmeraldL").opacity(0.3))
+                .cornerRadius(12)
+            }
+            .padding(.leading, 2)
+            .padding(.trailing, 2)
+            .background(Color.clear)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .frame(width: screenSize.width * 0.3, height: screenSize.width * 0.175)
+            
+            NavigationLink(destination: ManualLogView(calCountDatabase: $calCountDatabase)) {
+                HStack(spacing: 4) {
+                    Image(systemName: "pencil.and.list.clipboard")
+                        .font(Font.body.weight(.bold))
+                    
+                    VStack {
+                        Text("Manual")
+                            .font(.footnote)
+                            .fontWeight(.bold)
+                        Text("Entry")
+                            .font(.footnote)
+                            .fontWeight(.bold)
+                    }
+                    .lineLimit(1)
+                }
+                .padding(8)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .foregroundColor(Color.primary)
                 .background(Color("SeashoreL").opacity(0.3))
-                .cornerRadius(20)
+                .cornerRadius(12)
             }
-           
-            
-            .padding()
+            .padding(.leading, 2)
+            .padding(.trailing, 2)
             .background(Color.clear)
-            .clipShape(RoundedRectangle(cornerRadius: 20))
-            .frame(width: screenSize.width * 0.475, height: screenSize.width * 0.175)
-            
-            
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .frame(width: screenSize.width * 0.3, height: screenSize.width * 0.175)
         }
         .frame(width: screenSize.width * 0.95, height: screenSize.width * 0.190)
     }
-    
+
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
             for index in offsets {

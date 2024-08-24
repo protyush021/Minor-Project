@@ -38,12 +38,13 @@ struct SplashScreen: View {
             } else {
                 Color.black.ignoresSafeArea()
                 VStack{
-                    Image("IconApp")
+                    Text("Welcome Back !!!")
+                        .fontWeight(.medium)
+                        .foregroundStyle(Color.white)
+                        .font(.system(size: 40))
+                    Image("IconApp2")
                         .resizable()
                         .scaledToFit()
-                    Text("Hola 👋").fontWeight(.medium)
-                        .foregroundStyle(Color.white)
-                        .font(.system(size: 30))
                 }
             }
         }

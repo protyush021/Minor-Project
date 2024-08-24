@@ -60,6 +60,8 @@
 		534AB7D72C74AF7900004F4C /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534AB7D62C74AF7900004F4C /* Item.swift */; };
 		534AB7D92C74AF9800004F4C /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534AB7D82C74AF9800004F4C /* Defaults.swift */; };
 		534AB7DB2C74AFD800004F4C /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534AB7DA2C74AFD800004F4C /* HealthKitManager.swift */; };
+		53D6C8D02C7A3F2F00F68F78 /* Food Classifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 53D6C8CF2C7A3F2F00F68F78 /* Food Classifier.mlmodel */; };
+		53D6C8D22C7A43F400F68F78 /* ScanPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D6C8D12C7A43F400F68F78 /* ScanPhotoView.swift */; };
 		FE20A7412B4AB24D00B9BD68 /* SignUPScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE20A7402B4AB24D00B9BD68 /* SignUPScreen.swift */; };
 		FE245AE02B026610000EF370 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE245ADF2B026610000EF370 /* WidgetKit.framework */; };
 		FE245AE22B026610000EF370 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE245AE12B026610000EF370 /* SwiftUI.framework */; };
@@ -169,6 +171,8 @@
 		534AB7D62C74AF7900004F4C /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		534AB7D82C74AF9800004F4C /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
 		534AB7DA2C74AFD800004F4C /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
+		53D6C8CF2C7A3F2F00F68F78 /* Food Classifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "Food Classifier.mlmodel"; sourceTree = "<group>"; };
+		53D6C8D12C7A43F400F68F78 /* ScanPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanPhotoView.swift; sourceTree = "<group>"; };
 		FE1F49252B5C1AA80071FFCF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		FE20A7402B4AB24D00B9BD68 /* SignUPScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUPScreen.swift; sourceTree = "<group>"; };
 		FE245ADD2B026610000EF370 /* FoodWidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FoodWidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -305,6 +309,7 @@
 			isa = PBXGroup;
 			children = (
 				532C0F082C74B37600A5DBB6 /* BarCodeScannerView.swift */,
+				53D6C8D12C7A43F400F68F78 /* ScanPhotoView.swift */,
 				532C0F0A2C74B3DE00A5DBB6 /* ScannedItemView.swift */,
 				532C0F0E2C74B8D700A5DBB6 /* LogFoodView.swift */,
 				532C0F102C74B90E00A5DBB6 /* ManualLogView.swift */,
@@ -525,6 +530,7 @@
 			isa = PBXGroup;
 			children = (
 				FE5CCE6E2B02226F00F6F1C3 /* SwiftData Models */,
+				53D6C8CF2C7A3F2F00F68F78 /* Food Classifier.mlmodel */,
 				FE5CCE692B02219000F6F1C3 /* Food.swift */,
 				182092B92B8F619D00A13C85 /* OnlineImageModel.swift */,
 				185BD2052B91D40D00E31252 /* UserChart.swift */,
@@ -659,6 +665,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				53D6C8D22C7A43F400F68F78 /* ScanPhotoView.swift in Sources */,
 				18A6A35F2B8F558000FEDE7A /* CheckMarkViewScreen.swift in Sources */,
 				FEC1EB602B0244D400DF109E /* SplashScreen.swift in Sources */,
 				532C0F322C74D88800A5DBB6 /* BarChartView.swift in Sources */,
@@ -679,6 +686,7 @@
 				532C0F182C74D87400A5DBB6 /* DataScannerView.swift in Sources */,
 				532C0F1C2C74D87400A5DBB6 /* ThemeSelectionView.swift in Sources */,
 				532C0F042C74B27F00A5DBB6 /* ScannerViewModel.swift in Sources */,
+				53D6C8D02C7A3F2F00F68F78 /* Food Classifier.mlmodel in Sources */,
 				532C0F0F2C74B8D700A5DBB6 /* LogFoodView.swift in Sources */,
 				185BD2102B95DA0D00E31252 /* CalorieGraphChartView.swift in Sources */,
 				532C0F0B2C74B3DE00A5DBB6 /* ScannedItemView.swift in Sources */,
