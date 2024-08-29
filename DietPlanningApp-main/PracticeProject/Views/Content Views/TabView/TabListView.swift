@@ -49,9 +49,9 @@ struct TabListView: View {
                     .environmentObject(vm)
                     .tabItem { Label("Count Calories", systemImage: "fork.knife.circle") }.tag(1)
                 
-                SheduleWorkOutView()
+                SummaryView()
                     .environmentObject(vm)
-                    .tabItem { Label("Shedule Workout", systemImage: "dumbbell") }.tag(2)
+                    .tabItem { Label("Summary", systemImage: "leaf.fill") }.tag(2)
                 
                 SettingsView()
                     .environmentObject(vm)

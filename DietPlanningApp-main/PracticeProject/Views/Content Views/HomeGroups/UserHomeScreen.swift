@@ -23,7 +23,7 @@ struct UserHomeScreen: View {
     @State private var arrSideItems : [ActivityCardModel] = [
         ActivityCardModel(title: "Track",subTitle: "Have a track of your calories", bgColor: Color.brownBlackGradient),
         ActivityCardModel(title: "BMI",subTitle: "Calculate your BMI and get personal suggestions for your diet and workout", bgColor: Color.redYellowGradient),
-        ActivityCardModel(title: "Shedule",subTitle: "Shedule your workout chart", bgColor: Color.btnGradientColor2),
+        ActivityCardModel(title: "Monitor",subTitle: "Monitor your nutrition charts", bgColor: Color.btnGradientColor2),
         ActivityCardModel(title: "Tips",subTitle: "Want to know more..?", bgColor: Color.cardGradient)
     ]
     @State private var totalCaloriesStr : String = "0"
@@ -34,6 +34,21 @@ struct UserHomeScreen: View {
     
     @Binding var tabItemTag : Int
     @StateObject var apiManager = APIManager()
+    @Environment(\.modelContext) var modelContext
+    @Query(sort: \Item.timestamp, order: .reverse) var items: [Item]
+    @State private var selectedHour: Date? = nil
+    
+    // This property aggregates today's nutritional data
+    private var todaysNutrition: (calories: Double, fat: Double, carbs: Double, protein: Double) {
+        let calendar = Calendar.current
+        let todayItems = items.filter { calendar.isDateInToday($0.timestamp) }
+        
+        let totalCalories = todayItems.compactMap { $0.nfCalories }.reduce(0, +)
+        let totalFat = todayItems.compactMap { $0.nfTotalFat }.reduce(0, +)
+        let totalCarbs = todayItems.compactMap { $0.nfTotalCarbohydrate }.reduce(0, +)
+        let totalProtein = todayItems.compactMap { $0.nfProtein }.reduce(0, +)
+        return (totalCalories, totalFat, totalCarbs, totalProtein)
+    }
     
     var totalCalories: Int {
         foodDataStorage.reduce(0) { $0 + (Int($1.calCount) ) }
@@ -62,13 +77,13 @@ struct UserHomeScreen: View {
                                         .foregroundStyle(Color.textColor)
                                 }
                                 
-                                VStack(alignment: .leading){
+                                VStack(alignment: .leading) {
                                     Text("Total Intake")
                                         .bold()
                                         .font(.system(size: 14))
                                         .foregroundStyle(Color.textColor)
-                                    HStack(spacing:2){
-                                        Text("\(totalCaloriesStr)")
+                                    HStack(spacing: 2) {
+                                        Text("\(Int(todaysNutrition.calories.rounded()))")
                                             .font(.title)
                                             .bold()
                                             .foregroundStyle(Color.pink)
@@ -127,7 +142,7 @@ struct UserHomeScreen: View {
                                         .onTapGesture {
                                             if title == "Track"{
                                                 tabItemTag = 1
-                                            }else if title == "Shedule"{
+                                            }else if title == "Monitor"{
                                                 tabItemTag = 2
                                             }else if title == "BMI"{
                                                 
