@@ -141,6 +141,15 @@ struct SettingsView: View {
                                         }
                                     }
                                 }
+                                HStack {
+                                        Image(systemName: "chart.bar.fill")
+                                        NavigationLink(destination: BrowseView().environmentObject(vm)) {
+                                            Text("Statistics")
+                                                .font(.system(size: 14))
+                                        }
+                                    }
+                                    .foregroundStyle(Color.primary)
+                                    .padding(.vertical, 5)
                             }header: {
                                 Text("Account")
                             }
@@ -159,23 +168,6 @@ struct SettingsView: View {
                                 } label: {
                                     Text("Appearnace").font(.system(size: 14))
                                 }
-                            }
-                            
-                            HStack{
-                                HStack{
-                                    Image(systemName: "square.dashed").font(.system(size: 14))
-                                    Text("Select Icon").font(.system(size: 14))
-                                }
-                                Spacer()
-                                Button(action: {
-                                    self.changeAppIconSheet.toggle()
-                                }, label: {
-                                    Image(systemName: "ellipsis")
-                                        .font(.system(size: 20))
-                                        .foregroundStyle(Color.red)
-                                })
-                                
-                                
                             }
                         }header: {
                             HStack{

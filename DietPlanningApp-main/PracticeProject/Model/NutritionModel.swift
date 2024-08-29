@@ -10,6 +10,49 @@ import Foundation
 struct FoodsResponse: Decodable {
     let foods: [FoodItem]
 }
+struct FatSecretTokenResponse: Decodable {
+    let access_token: String
+    let token_type: String
+    let expires_in: Int
+}
+
+struct FatSecretFoodSearchResponse: Decodable {
+    let foods: FatSecretFoodsResponse
+}
+
+struct FatSecretFoodsResponse: Decodable {
+    let food: [FatSecretFood]
+}
+
+struct FatSecretFood: Decodable {
+    let food_id: String
+    let food_name: String
+    let food_description: String
+    
+    func toFoodItem() -> FoodItem {
+        return FoodItem(
+            foodName: food_name,
+            brandName: nil,
+            servingQty: nil,
+            servingUnit: nil,
+            servingWeightGrams: nil,
+            nfMetricQty: nil,
+            nfMetricUom: nil,
+            nfCalories: nil,
+            nfTotalFat: nil,
+            nfSaturatedFat: nil,
+            nfCholesterol: nil,
+            nfSodium: nil,
+            nfTotalCarbohydrate: nil,
+            nfDietaryFiber: nil,
+            nfSugars: nil,
+            nfProtein: nil,
+            nfPotassium: nil,
+            nfP: nil
+        )
+    }
+}
+
 
 struct FoodItem: Decodable {
     let foodName: String
