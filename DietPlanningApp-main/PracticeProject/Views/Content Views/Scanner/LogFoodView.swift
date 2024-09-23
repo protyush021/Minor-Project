@@ -230,7 +230,7 @@ struct ItemDetailView: View {
     var body: some View {
         ZStack{
             NavigationStack {
-               
+                
                 VStack(alignment: .leading, spacing: 10) {
                     Form{
                         VStack (alignment: .leading, spacing: 10){
@@ -296,7 +296,7 @@ struct ItemDetailView: View {
                                         .frame(height: 1)
                                 }
                                 
-                               
+                                
                                 
                                 if let nfTotalFat = foodItem.nfTotalFat {
                                     nutritionalRow(label: "Total Fat", value: "\(Int(nfTotalFat)) g", dailyValue: calculateDailyValue(nutrient: .fat, value: nfTotalFat))
@@ -377,99 +377,100 @@ struct ItemDetailView: View {
                                     
                                 }
                             }
-                                    .padding()
-                                
-                            }
+                            .padding()
+                            
                         }
-                        .toolbar {
-                            // Define the toolbar items here
-                            ToolbarItem(placement: .navigationBarTrailing) {
-                                Button(action: {
-                                    addFoodItem(foodItem: foodItem)
-                                    // success haptics
-                                    UINotificationFeedbackGenerator().notificationOccurred(.success)
-                                }) {
-                                    Image(systemName: "plus.circle")
-                                    Text("Add Again")
-                                        .fontWeight(.semibold)
-                                }
+                    }
+                    .toolbar {
+                        // Define the toolbar items here
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Button(action: {
+                                addFoodItem(foodItem: foodItem)
+                                // success haptics
+                                UINotificationFeedbackGenerator().notificationOccurred(.success)
+                            }) {
+                                Image(systemName: "plus.circle")
+                                Text("Add Again")
+                                    .fontWeight(.semibold)
                             }
                         }
                     }
-                   
-                }
-                .padding(10)
-            }
-        }
-        
-        @ViewBuilder
-        func nutritionalRow(label: String, value: String?, dailyValue: Double?) -> some View {
-            HStack {
-                if label == "Calories" || label == "Total Fat" ||  label == "Carbohydrate" ||  label == "Protein"  {
-                    Text(label)
-                        .bold()
-                        .font(.headline)
-                        .frame(width: screenSize.width * 0.41, alignment: .leading)
-                } else {
-                    Text(label)
-                        .font(.subheadline)
-                        .frame(width: screenSize.width * 0.41, alignment: .leading)
-                }
-               
-                if let value = value {
-                    Text(value)
-                        .frame(width: screenSize.width * 0.22, alignment: .leading)
-                        .foregroundColor(.gray)
-                }
-                if let dailyValue = dailyValue {
-                    Text("\(Int(dailyValue))%")
-                        .frame(width: screenSize.width * 0.12, alignment: .trailing)
-                        .foregroundColor(dailyValue >= 15 ? Color("SunsetL") : .gray)
                 }
                 
             }
+            .padding(10)
         }
-        
-        func calculateDailyValue(nutrient: Nutrient, value: Double) -> Double? {
-           
-            switch nutrient {
-            case .fat:
-                return (value / 75) * 100
-            case .sugar:
-                return (value / 100) * 100
-            case .saturatedFat:
-                return (value / 20) * 100
-            case .fibre:
-                return (value / 28) * 100
-            case .cholesterol:
-                return (value / 300) * 100
-            case .sodium:
-                return (value / 2300) * 100
-            default:
-                return nil
+    }
+    
+    @ViewBuilder
+    func nutritionalRow(label: String, value: String?, dailyValue: Double?) -> some View {
+        HStack {
+            if label == "Calories" || label == "Total Fat" ||  label == "Carbohydrate" ||  label == "Protein"  {
+                Text(label)
+                    .bold()
+                    .font(.headline)
+                    .frame(width: screenSize.width * 0.41, alignment: .leading)
+            } else {
+                Text(label)
+                    .font(.subheadline)
+                    .frame(width: screenSize.width * 0.41, alignment: .leading)
             }
+            
+            if let value = value {
+                Text(value)
+                    .frame(width: screenSize.width * 0.22, alignment: .leading)
+                    .foregroundColor(.gray)
+            }
+            if let dailyValue = dailyValue {
+                Text("\(Int(dailyValue))%")
+                    .frame(width: screenSize.width * 0.12, alignment: .trailing)
+                    .foregroundColor(dailyValue >= 15 ? Color("SunsetL") : .gray)
+            }
+            
         }
+    }
+    
+    func calculateDailyValue(nutrient: Nutrient, value: Double) -> Double? {
         
-        enum Nutrient {
-            case fat, sugar, protein, sodium, saturatedFat, fibre, cholesterol, other
+        switch nutrient {
+        case .fat:
+            return (value / 75) * 100
+        case .sugar:
+            return (value / 100) * 100
+        case .saturatedFat:
+            return (value / 20) * 100
+        case .fibre:
+            return (value / 28) * 100
+        case .cholesterol:
+            return (value / 300) * 100
+        case .sodium:
+            return (value / 2300) * 100
+        default:
+            return nil
         }
-        
-        func addFoodItem(foodItem: Item) {
-            if isHealthKitEnabled {
-                let healthKitManager = HealthKitManager()
-                
-                
-                healthKitManager.saveNutritionalDataFromItem(for: foodItem) { success, error in
-                    
-                    if success {
-                        
-                        print("Data saved to HealthKit")
-                    } else if let error = error {
-                        
-                        print("Error saving data to HealthKit: \(error.localizedDescription)")
+    }
+    
+    enum Nutrient {
+        case fat, sugar, protein, sodium, saturatedFat, fibre, cholesterol, other
+    }
+    
+    func addFoodItem(foodItem: Item) {
+        if isHealthKitEnabled {
+            let healthKitManager = HealthKitManager()
+            
+            healthKitManager.saveNutritionalDataFromItem(for: foodItem) { success, error in
+                if success {
+                    print("Data saved to HealthKit")
+                    withAnimation {
+                        let newItem = Item(from: foodItem)
+                        modelContext.insert(newItem)
+                        dismiss()
                     }
+                } else if let error = error {
+                    print("Error saving data to HealthKit: \(error.localizedDescription)")
                 }
             }
+        } else {
             withAnimation {
                 let newItem = Item(from: foodItem)
                 modelContext.insert(newItem)
@@ -477,4 +478,5 @@ struct ItemDetailView: View {
             }
         }
     }
+}
     

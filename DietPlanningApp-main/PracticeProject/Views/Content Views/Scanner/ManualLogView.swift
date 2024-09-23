@@ -314,7 +314,6 @@ struct ManualLogView: View {
             nfPotassium: nil,
             nfP: nil
         )
-        saveToCalorieModel()
         if isHealthKitEnabled {
             let healthKitManager = HealthKitManager()
             healthKitManager.saveNutritionalDataFromItem(for: newItem) { success, error in
@@ -329,6 +328,7 @@ struct ManualLogView: View {
             modelContext.insert(newItem)
             dismiss()
         }
+        saveToCalorieModel()
     }
 
     private func saveToCalorieModel() {

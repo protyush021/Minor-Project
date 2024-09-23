@@ -497,6 +497,7 @@
 		FE5CCE592B02212D00F6F1C3 /* PracticeProject */ = {
 			isa = PBXGroup;
 			children = (
+				FE5CCE602B02213000F6F1C3 /* PracticeProject.entitlements */,
 				532C0F022C74B26600A5DBB6 /* ViewModel */,
 				FE245AD62B025DD9000EF370 /* Assets */,
 				FE1F49252B5C1AA80071FFCF /* Info.plist */,
@@ -507,7 +508,6 @@
 				FE45EC3D2B63D2AF0040B6C6 /* Constants + Extensions */,
 				18A15C172B8483B500DF70EE /* Views */,
 				18A15C152B84837E00DF70EE /* Managers */,
-				FE5CCE602B02213000F6F1C3 /* PracticeProject.entitlements */,
 				FE5CCE612B02213000F6F1C3 /* Preview Content */,
 			);
 			path = PracticeProject;
@@ -965,23 +965,31 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = PracticeProject/PracticeProject.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"PracticeProject/Preview Content\"";
 				DEVELOPMENT_TEAM = 3LBDN5AYGA;
-				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PracticeProject/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Fit Bite";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera access needed for scanning";
+				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "This app uses your dietary health data to track and display your nutritional intake.\n";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "This app uses your dietary health data to track and display your nutritional intake.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "The app want assess to Apple Health for monitoring physical activities.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Diet app wants to use your location always";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Diet app wants to use yout location";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -990,10 +998,10 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Aditya.PracticeProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
+				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1011,23 +1019,31 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = PracticeProject/PracticeProject.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"PracticeProject/Preview Content\"";
 				DEVELOPMENT_TEAM = 3LBDN5AYGA;
-				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PracticeProject/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Fit Bite";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera access needed for scanning";
+				INFOPLIST_KEY_NSHealthClinicalHealthRecordsShareUsageDescription = "This app uses your dietary health data to track and display your nutritional intake.\n";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "This app uses your dietary health data to track and display your nutritional intake.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "The app want assess to Apple Health for monitoring physical activities.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Diet app wants to use your location always";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Diet app wants to use yout location";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -1036,10 +1052,10 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.Aditya.PracticeProject;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = auto;
+				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
