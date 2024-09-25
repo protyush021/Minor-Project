@@ -7,36 +7,53 @@
 
 import SwiftUI
 import SwiftData
+import HealthKit
+
+struct ActivityCardModel: Identifiable {
+    var id = UUID()
+    var title: String?
+    var subTitle: String?
+    var bgColor: LinearGradient?
+}
 
 struct UserHomeScreen: View {
+    @Binding var tabItemTag: Int
+    
+    init(tabItemTag: Binding<Int>) {
+        self._tabItemTag = tabItemTag
+    }
+
     @Namespace var profileAnimation
     @Environment(\.modelContext) var formData
     @EnvironmentObject var vm: ScannerViewModel
     
-    @State private var foodDataStorage: [CalorieModel]      = []
-    @State private var arrHomeItems   : [ActivityCardModel] = [
+    @State private var foodDataStorage: [CalorieModel] = []
+    @State private var arrHomeItems: [ActivityCardModel] = [
         ActivityCardModel(title: "New", bgColor: Color.brownBlackGradient),
         ActivityCardModel(title: "Favourites", bgColor: Color.titleGradientColor),
         ActivityCardModel(title: "Trending", bgColor: Color.orangeYellowGradient),
         ActivityCardModel(title: "Suggestions", bgColor: Color.btnGradientColor2)
     ]
-    @State private var arrSideItems : [ActivityCardModel] = [
-        ActivityCardModel(title: "Track",subTitle: "Have a track of your calories", bgColor: Color.brownBlackGradient),
-        ActivityCardModel(title: "BMI",subTitle: "Calculate your BMI and get personal suggestions for your diet and workout", bgColor: Color.redYellowGradient),
-        ActivityCardModel(title: "Monitor",subTitle: "Monitor your nutrition charts", bgColor: Color.btnGradientColor2),
-        ActivityCardModel(title: "Tips",subTitle: "Want to know more..?", bgColor: Color.cardGradient)
+    @State private var arrSideItems: [ActivityCardModel] = [
+        ActivityCardModel(title: "Track", subTitle: "Have a track of your calories", bgColor: Color.brownBlackGradient),
+        ActivityCardModel(title: "BMI", subTitle: "Calculate your BMI and get personal suggestions for your diet and workout", bgColor: Color.redYellowGradient),
+        ActivityCardModel(title: "Monitor", subTitle: "Monitor your nutrition charts", bgColor: Color.btnGradientColor2),
+        ActivityCardModel(title: "Tips", subTitle: "Want to know more..?", bgColor: Color.cardGradient)
     ]
-    @State private var totalCaloriesStr : String = "0"
+    @State private var totalCaloriesStr: String = "0"
     @State private var drawingStroke = false
     @State private var onlineImageExpanded = false
     @State private var showDarkModeScreen = false
     @State var selectedOnlineImage: UIImage?
     
-    @Binding var tabItemTag : Int
     @StateObject var apiManager = APIManager()
     @Environment(\.modelContext) var modelContext
     @Query(sort: \Item.timestamp, order: .reverse) var items: [Item]
     @State private var selectedHour: Date? = nil
+
+    // HealthKit-related properties
+    private var healthStore = HKHealthStore()
+    @State private var caloriesBurned: Double = 0.0
     
     // This property aggregates today's nutritional data
     private var todaysNutrition: (calories: Double, fat: Double, carbs: Double, protein: Double) {
@@ -51,219 +68,208 @@ struct UserHomeScreen: View {
     }
     
     var totalCalories: Int {
-        foodDataStorage.reduce(0) { $0 + (Int($1.calCount) ) }
+        foodDataStorage.reduce(0) { $0 + (Int($1.calCount)) }
     }
     
-    var cardHeight : CGFloat = 200
+    var cardHeight: CGFloat = 200
     let columns: [GridItem] = Array(repeating: .init(.flexible()), count: 2)
     
     var body: some View {
-            ScrollView(.vertical) {
-                Section{
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 15)
-                            .fill(Color.textColor.opacity(0.1))
-                        HStack{
-                            VStack(alignment: .leading, spacing: 10){
-                                VStack(alignment: .leading){
-                                    Text("Total Days")
-                                        .bold()
-                                        .font(.system(size: 14))
-                                        .foregroundStyle(Color.textColor)
-                                    
-                                    Text("6")
-                                        .font(.title)
-                                        .bold()
-                                        .foregroundStyle(Color.textColor)
-                                }
-                                
-                                VStack(alignment: .leading) {
-                                    Text("Total Intake")
-                                        .bold()
-                                        .font(.system(size: 14))
-                                        .foregroundStyle(Color.textColor)
-                                    HStack(spacing: 2) {
-                                        Text("\(Int(todaysNutrition.calories.rounded()))")
-                                            .font(.title)
-                                            .bold()
-                                            .foregroundStyle(Color.pink)
-                                        Text("Kcal")
-                                            .font(.title3)
-                                            .foregroundStyle(Color.pink)
-                                    }
-                                }
-                            }.padding(.leading)
-                            Spacer()
-                            
-                            ActivityProgressView(drawingStroke: $drawingStroke)
-                                .onAppear { drawingStroke = true }
-                        }.padding()
-                    }.frame(height: cardHeight-15)
-                        .padding(.horizontal)
-                    
-                }header: {
-                    NavigationLink {
-                        UserStatisticsView()
-                    } label: {
-                        HStack{
-                            Text("Your Activity")
+        ScrollView(.vertical) {
+            Section {
+                HStack(spacing: 20) {
+                    // Calorie Intake
+                    VStack {
+                        ZStack {
+                            Circle()
+                                .stroke(Color.green.opacity(0.3), lineWidth: 10)
+                            Circle()
+                                .trim(from: 0, to: CGFloat(min(todaysNutrition.calories, 2000)) / 2000)
+                                .stroke(Color.green, lineWidth: 10)
+                                .rotationEffect(.degrees(-90))
+                            Text("\(Int(todaysNutrition.calories.rounded()))")
+                                .font(.title)
                                 .bold()
-                                .font(.title2)
-                                .foregroundStyle(Color.textColor)
-                            Image(systemName: "chevron.right").bold()
-                            Spacer()
-                        }.padding([.horizontal, .top])
-                    }.tint(Color.textColor)
-                }
-                
-                Section{
-                    ScrollView(.horizontal){
-                        LazyHGrid(rows: [GridItem()], alignment: .center, spacing: 10, content: {
-                            ForEach(arrSideItems) { home in
-                                if let title = home.title, let subTitle = home.subTitle, let gradient = home.bgColor {
-                                    
-                                    ZStack(alignment: .topLeading){
-                                        ZStack(alignment: .bottom){
-                                            RoundedRectangle(cornerRadius: 10)
-                                                .fill(gradient)
-                                            ZStack(alignment: .center){
-                                                UnevenRoundedRectangle(topLeadingRadius: 0, bottomLeadingRadius: 10, bottomTrailingRadius: 10, topTrailingRadius: 0)
-                                                    .fill(Color.black.opacity(0.5))
-                                                Text("\(subTitle)")
-                                                    .font(.footnote)
-                                                    .multilineTextAlignment(.center)
-                                                    .lineLimit(3)
-                                                    .foregroundStyle(Color.white)
-                                                    .padding(5)
-                                            }
-                                            .frame(height: 75)
-                                        }
-                                        .frame(width: 250, height: 275)
-                                        .onTapGesture {
-                                            if title == "Track"{
-                                                tabItemTag = 1
-                                            }else if title == "Monitor"{
-                                                tabItemTag = 2
-                                            }else if title == "BMI"{
-                                                
-                                            }else if title == "Tips"{
-                                                
-                                            }
-                                        }
-                                        Text("\(title)")
-                                            .bold()
-                                            .font(.title)
-                                            .foregroundStyle(Color.white)
-                                            .padding([.top, .leading], 20)
-                                    }
-                                }
-                            }
-                        }).padding(.horizontal)
-                    } .scrollIndicators(.hidden)
-                } header: {
-                    HStack{
-                        Text("For you")
+                                .foregroundStyle(Color.green)
+                        }
+                        .frame(width: 80, height: 80)
+                        
+                        Text("Calories Consumed")
                             .bold()
-                            .font(.title2)
+                            .font(.system(size: 14))
                             .foregroundStyle(Color.textColor)
-                        Spacer()
-                    }.padding([.horizontal, .top])
+                        Text("Kcal")
+                            .font(.title3)
+                            .foregroundStyle(Color.green)
+                    }
                     
+                    Spacer()
+                    
+                    // Calories Burned
+                    VStack {
+                        ZStack {
+                            Circle()
+                                .stroke(Color.red.opacity(0.3), lineWidth: 10)
+                            Circle()
+                                .trim(from: 0, to: CGFloat(min(caloriesBurned, 2000)) / 2000)
+                                .stroke(Color.red, lineWidth: 10)
+                                .rotationEffect(.degrees(-90))
+                            Text("\(Int(caloriesBurned.rounded()))")
+                                .font(.title)
+                                .bold()
+                                .foregroundStyle(Color.red)
+                        }
+                        .frame(width: 80, height: 80)
+                        
+                        Text("Calories Burned")
+                            .bold()
+                            .font(.system(size: 14))
+                            .foregroundStyle(Color.textColor)
+                        Text("Kcal")
+                            .font(.title3)
+                            .foregroundStyle(Color.red)
+                    }
                 }
-                Section{
-                    LazyVGrid(columns: [GridItem()], alignment: .center, spacing: 30, content: {
-                        ForEach(arrHomeItems) { home in
-                            if let title = home.title {
-                                if let gradient = home.bgColor{
-                                    
-                                    VStack(alignment: .leading, spacing: 0){
-                                        Text("\(title)")
-                                            .bold()
-                                            .font(.title)
-                                            .foregroundStyle(Color.textColor)
-                                        
-                                        ZStack(alignment: .bottom){
-                                            RoundedRectangle(cornerRadius: 15)
-                                                .fill(gradient)
-                                            ZStack(alignment: .center){
-                                                UnevenRoundedRectangle(topLeadingRadius: 0, bottomLeadingRadius: 15, bottomTrailingRadius: 15, topTrailingRadius: 0)
-                                                    .fill(Color.black.opacity(0.5))
-                                                Text("This is for purely text purpose which need to be edited later")
-                                                    .font(.footnote)
-                                                    .multilineTextAlignment(.center)
-                                                    .lineLimit(3)
-                                                    .foregroundStyle(Color.white)
-                                                    .padding(5)
-                                            }
-                                            .frame(height: 75)
+                .padding()
+                .background(RoundedRectangle(cornerRadius: 15).fill(Color.textColor.opacity(0.1)))
+                .padding(.horizontal)
+            
+
+            } header: {
+                HStack {
+                    Text("Your Activity")
+                        .bold()
+                        .font(.title2)
+                        .foregroundStyle(Color.textColor)
+                    Spacer()
+                }
+                .padding([.horizontal, .top])
+            }
+            
+            Section {
+                ScrollView(.horizontal) {
+                    LazyHGrid(rows: [GridItem()], alignment: .center, spacing: 10) {
+                        ForEach(arrSideItems) { home in
+                            if let title = home.title, let subTitle = home.subTitle, let gradient = home.bgColor {
+                                ZStack(alignment: .topLeading) {
+                                    ZStack(alignment: .bottom) {
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .fill(gradient)
+                                        ZStack(alignment: .center) {
+                                            UnevenRoundedRectangle(topLeadingRadius: 0, bottomLeadingRadius: 10, bottomTrailingRadius: 10, topTrailingRadius: 0)
+                                                .fill(Color.black.opacity(0.5))
+                                            Text("\(subTitle)")
+                                                .font(.footnote)
+                                                .multilineTextAlignment(.center)
+                                                .lineLimit(3)
+                                                .foregroundStyle(Color.white)
+                                                .padding(5)
                                         }
-                                    }.frame(height: 450)
-                                        .padding(.horizontal)
-                                        .onTapGesture {
-                                            if title == "New"{
-                                                
-                                            }else if title == "Favourites"{
-                                                
-                                            }else if title == "Trending"{
-                                                
-                                            }else if title == "Suggestions"{
-                                                
-                                            }
+                                        .frame(height: 75)
+                                    }
+                                    .frame(width: 250, height: 275)
+                                    .onTapGesture {
+                                        if title == "Track" {
+                                            tabItemTag = 1
+                                        } else if title == "Monitor" {
+                                            tabItemTag = 2
                                         }
+                                    }
+                                    Text("\(title)")
+                                        .bold()
+                                        .font(.title)
+                                        .foregroundStyle(Color.white)
+                                        .padding([.top, .leading], 20)
                                 }
                             }
                         }
-                    })
-                } header: {
-                    HStack{
-                        Text("For you")
-                            .bold()
-                            .font(.title2)
-                            .foregroundStyle(Color.textColor)
-                        Spacer()
-                    }.padding([.horizontal, .top])
-                }
-            }.onAppear(perform: {
-                fetchCalData()
-                totalCaloriesStr = foodDataStorage.count > 0 ? String(totalCalories) : "0"
-                if let user = UserDefaults.standard.object(forKey: "UserLogIN")as? Int, user == 0{
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
-                        showDarkModeScreen.toggle()
                     }
+                    .padding(.horizontal)
                 }
-            })
-            
-            .sheet(isPresented: $showDarkModeScreen) {
-                UserDefaults.standard.setValue(1, forKey: "UserLogIN")
-            } content: {
-                ThemePrefrenceIntroView {
-                    showDarkModeScreen.toggle()
-                }.interactiveDismissDisabled()
+                .scrollIndicators(.hidden)
+            } header: {
+                HStack {
+                    Text("For you")
+                        .bold()
+                        .font(.title2)
+                        .foregroundStyle(Color.textColor)
+                    Spacer()
+                }
+                .padding([.horizontal, .top])
             }
+        }
+        .onAppear(perform: {
+            fetchCalData()
+            totalCaloriesStr = foodDataStorage.count > 0 ? String(totalCalories) : "0"
+            requestAuthorization() // Request authorization for HealthKit
+            fetchCaloriesBurnedFromHealthKit() // Fetch calories from HealthKit on appear
+            if let user = UserDefaults.standard.object(forKey: "UserLogIN") as? Int, user == 0 {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    showDarkModeScreen.toggle()
+                }
+            }
+        })
+        .sheet(isPresented: $showDarkModeScreen) {
+            UserDefaults.standard.setValue(1, forKey: "UserLogIN")
+        } content: {
+            ThemePrefrenceIntroView {
+                showDarkModeScreen.toggle()
+            }
+            .interactiveDismissDisabled()
+        }
     }
 }
-extension UserHomeScreen{
+
+extension UserHomeScreen {
     
-    func fetchCalData(){
-        let userID =  UserDefaults.standard.value(forKey: "UserID") as! String
-        let descriptor = FetchDescriptor<CalorieModel>(predicate: #Predicate { data in
-            data.userID == userID
+    func fetchCalData() {
+        let userID = UserDefaults.standard.value(forKey: "UserID") as! String
+        let descriptor = FetchDescriptor<CalorieModel>(predicate: #Predicate { calObj in
+            calObj.userID == userID
         })
         do {
             foodDataStorage = try formData.fetch(descriptor)
-            print(foodDataStorage)
-        }catch { }
+            print("Data Successfully fetched")
+        } catch {
+            print("Error is: ", error.localizedDescription)
+        }
     }
-}
-
-#Preview {
-    UserHomeScreen(tabItemTag: .constant(0))
-}
-
-struct ActivityCardModel: Identifiable {
-    var id = UUID()
-    var title : String?
-    var subTitle : String?
-    var bgColor : LinearGradient?
-    var bgImage : String?
+    
+    // Request permission to read HealthKit data
+    func requestAuthorization() {
+        let readDataTypes = Set([
+            HKObjectType.quantityType(forIdentifier: .activeEnergyBurned)!
+        ])
+        
+        healthStore.requestAuthorization(toShare: nil, read: readDataTypes) { success, error in
+            if !success {
+                print("HealthKit authorization failed.")
+            }
+        }
+    }
+    
+    // Fetch calories burned from HealthKit
+    func fetchCaloriesBurnedFromHealthKit() {
+        let energyType = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!
+        let startDate = Calendar.current.startOfDay(for: Date())
+        let endDate = Date()
+        
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictStartDate)
+        
+        let query = HKSampleQuery(sampleType: energyType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: nil) { query, results, error in
+            
+            guard let results = results as? [HKQuantitySample] else {
+                print("Error fetching calories burned: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            
+            // Sum the calories burned
+            let totalCaloriesBurned = results.reduce(0) { $0 + $1.quantity.doubleValue(for: HKUnit.kilocalorie()) }
+            DispatchQueue.main.async {
+                self.caloriesBurned = totalCaloriesBurned
+            }
+        }
+        
+        healthStore.execute(query)
+    }
 }
