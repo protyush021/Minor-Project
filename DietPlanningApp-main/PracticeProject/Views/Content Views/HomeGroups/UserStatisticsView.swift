@@ -33,19 +33,21 @@ struct UserStatisticsView: View {
                         HStack{
                             VStack(alignment: .leading, spacing: 10){
                                 VStack(alignment: .leading) {
-                                        Text("Calories Burned")
-                                            .bold()
-                                            .font(.system(size: 14))
-                                            .foregroundStyle(Color.textColor)
-
+                                    Text("Calories Burned")
+                                        .bold()
+                                        .font(.system(size: 14))
+                                        .foregroundStyle(Color.textColor)
+                                    HStack(spacing: 2) {
+                                        
                                         Text("\(Int(healthKitManager.caloriesBurned))")
                                             .font(.title)
                                             .bold()
                                             .foregroundStyle(Color.textColor)
-                                    Text("Kcal")
-                                        .font(.title3)
-                                        .foregroundStyle(Color.textColor)
+                                        Text("Kcal")
+                                            .font(.title3)
+                                            .foregroundStyle(Color.textColor)
                                     }
+                                }
                                 VStack(alignment: .leading){
                                     Text("Total Intake")
                                         .bold()
