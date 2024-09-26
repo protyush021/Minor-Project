@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import HealthKit
 
 struct UserHomeScreen: View {
     @Namespace var profileAnimation
@@ -27,6 +28,7 @@ struct UserHomeScreen: View {
         ActivityCardModel(title: "Tips",subTitle: "Want to know more..?", bgColor: Color.cardGradient)
     ]
     @State private var totalCaloriesStr : String = "0"
+    @StateObject private var healthKitManager = HealthKitManagerHome()
     @State private var drawingStroke = false
     @State private var onlineImageExpanded = false
     @State private var showDarkModeScreen = false
@@ -65,18 +67,22 @@ struct UserHomeScreen: View {
                             .fill(Color.textColor.opacity(0.1))
                         HStack{
                             VStack(alignment: .leading, spacing: 10){
-                                VStack(alignment: .leading){
-                                    Text("Total Days")
+                                VStack(alignment: .leading) {
+                                    Text("Calories Burned")
                                         .bold()
                                         .font(.system(size: 14))
                                         .foregroundStyle(Color.textColor)
-                                    
-                                    Text("6")
-                                        .font(.title)
-                                        .bold()
-                                        .foregroundStyle(Color.textColor)
+                                    HStack(spacing: 2) {
+                                        
+                                        Text("\(Int(healthKitManager.caloriesBurned))")
+                                            .font(.title)
+                                            .bold()
+                                            .foregroundStyle(Color.textColor)
+                                        Text("Kcal")
+                                            .font(.title3)
+                                            .foregroundStyle(Color.textColor)
+                                    }
                                 }
-                                
                                 VStack(alignment: .leading) {
                                     Text("Total Intake")
                                         .bold()
@@ -87,7 +93,7 @@ struct UserHomeScreen: View {
                                             .font(.title)
                                             .bold()
                                             .foregroundStyle(Color.pink)
-                                        Text("Kcal")
+                                        Text("Cal")
                                             .font(.title3)
                                             .foregroundStyle(Color.pink)
                                     }

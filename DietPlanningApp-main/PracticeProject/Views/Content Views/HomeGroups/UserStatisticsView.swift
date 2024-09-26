@@ -12,7 +12,7 @@ import Charts
 struct UserStatisticsView: View {
     @Environment(\.modelContext) var formData
     @EnvironmentObject var vm: ScannerViewModel
-    
+    @StateObject private var healthKitManager = HealthKitManagerHome()
     @State var totalCaloriesStr : String = "0"
     @State private var drawingStroke = false
     @State private var foodDataStorage : [CalorieModel] = []
@@ -32,19 +32,20 @@ struct UserStatisticsView: View {
                             .fill(Color.textColor.opacity(0.1))
                         HStack{
                             VStack(alignment: .leading, spacing: 10){
-                                VStack(alignment: .leading){
-                                    Text("Total Days")
-                                        .bold()
-                                    
-                                        .font(.system(size: 14))
+                                VStack(alignment: .leading) {
+                                        Text("Calories Burned")
+                                            .bold()
+                                            .font(.system(size: 14))
+                                            .foregroundStyle(Color.textColor)
+
+                                        Text("\(Int(healthKitManager.caloriesBurned))")
+                                            .font(.title)
+                                            .bold()
+                                            .foregroundStyle(Color.textColor)
+                                    Text("Kcal")
+                                        .font(.title3)
                                         .foregroundStyle(Color.textColor)
-                                    
-                                    Text("6")
-                                        .font(.title)
-                                        .bold()
-                                        .foregroundStyle(Color.textColor)
-                                }
-                                
+                                    }
                                 VStack(alignment: .leading){
                                     Text("Total Intake")
                                         .bold()
@@ -55,7 +56,7 @@ struct UserStatisticsView: View {
                                             .font(.title)
                                             .bold()
                                             .foregroundStyle(Color.pink)
-                                        Text("Kcal")
+                                        Text("Cal")
                                             .font(.title3)
                                             .foregroundStyle(Color.pink)
                                     }
@@ -104,7 +105,7 @@ struct UserStatisticsView: View {
                 }
                 
             }.listStyle(PlainListStyle())
-                .navigationTitle("Statistics")
+                .navigationTitle("Weekly Statistics")
                 .navigationBarTitleDisplayMode(.inline)
         }
         .onAppear(perform: {

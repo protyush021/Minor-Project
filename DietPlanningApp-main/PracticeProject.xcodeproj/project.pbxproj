@@ -65,6 +65,7 @@
 		534AB7D72C74AF7900004F4C /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534AB7D62C74AF7900004F4C /* Item.swift */; };
 		534AB7D92C74AF9800004F4C /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534AB7D82C74AF9800004F4C /* Defaults.swift */; };
 		534AB7DB2C74AFD800004F4C /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534AB7DA2C74AFD800004F4C /* HealthKitManager.swift */; };
+		53CE8F1F2CA544390075447A /* HealthKitManagerHome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53CE8F1E2CA544320075447A /* HealthKitManagerHome.swift */; };
 		53D6C8D02C7A3F2F00F68F78 /* Food Classifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 53D6C8CF2C7A3F2F00F68F78 /* Food Classifier.mlmodel */; };
 		53D6C8D22C7A43F400F68F78 /* ScanPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D6C8D12C7A43F400F68F78 /* ScanPhotoView.swift */; };
 		FE20A7412B4AB24D00B9BD68 /* SignUPScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE20A7402B4AB24D00B9BD68 /* SignUPScreen.swift */; };
@@ -181,6 +182,7 @@
 		534AB7D62C74AF7900004F4C /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		534AB7D82C74AF9800004F4C /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
 		534AB7DA2C74AFD800004F4C /* HealthKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManager.swift; sourceTree = "<group>"; };
+		53CE8F1E2CA544320075447A /* HealthKitManagerHome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitManagerHome.swift; sourceTree = "<group>"; };
 		53D6C8CF2C7A3F2F00F68F78 /* Food Classifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = "Food Classifier.mlmodel"; sourceTree = "<group>"; };
 		53D6C8D12C7A43F400F68F78 /* ScanPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanPhotoView.swift; sourceTree = "<group>"; };
 		FE1F49252B5C1AA80071FFCF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -281,6 +283,7 @@
 			children = (
 				FE5893382BC03F6500CD9E81 /* UserHomeScreen.swift */,
 				185BD2032B91B69B00E31252 /* UserStatisticsView.swift */,
+				53CE8F1E2CA544320075447A /* HealthKitManagerHome.swift */,
 			);
 			path = HomeGroups;
 			sourceTree = "<group>";
@@ -694,6 +697,7 @@
 				FEC1EB602B0244D400DF109E /* SplashScreen.swift in Sources */,
 				532C0F322C74D88800A5DBB6 /* BarChartView.swift in Sources */,
 				5308EA652C80CEB500715BB3 /* SummaryView.swift in Sources */,
+				53CE8F1F2CA544390075447A /* HealthKitManagerHome.swift in Sources */,
 				182C51AE2B7E1F660034B91D /* CalculateRowCell.swift in Sources */,
 				532C0F2D2C74D88800A5DBB6 /* DetailMonthlyChart.swift in Sources */,
 				532C0F342C74D88800A5DBB6 /* MonthlyChartView.swift in Sources */,
