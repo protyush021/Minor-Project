@@ -6,7 +6,7 @@
 //
 import SwiftData
 import SwiftUI
-
+import HealthKit // Import HealthKit framework
 
 struct SettingsView: View {
     
@@ -27,6 +27,7 @@ struct SettingsView: View {
     @State fileprivate var reportIssue: Bool = false
     
     @State fileprivate var isNotificationsEnabled: Bool = false
+    @State fileprivate var isHealthKitEnabled: Bool = false // New state for HealthKit toggle
     
     @State fileprivate var shouldRedirectToLogIn = false
     @State private var editSheetPresented : Bool = false
@@ -155,6 +156,25 @@ struct SettingsView: View {
                             }
                         }
                         //MARK: - Apperance Section
+                        
+                        Section(header: Text("Apple Health")) {
+                            HStack{
+                            Image(systemName: "heart.fill")
+                                    .foregroundColor(.red)
+                                Toggle(isOn: $isHealthKitEnabled) {
+                                    Text("Save Data to Health App")
+                                        .foregroundStyle(Color.textColor)
+                                        .font(.system(size: 14))
+                                }
+                            }
+                        }
+                        .onChange(of: isHealthKitEnabled) { newValue in
+                            if newValue {
+                                requestHealthKitAuthorization()
+                            }
+                        }
+
+
                         Section{
                             
                             HStack{
@@ -355,6 +375,11 @@ struct SettingsView: View {
             } catch {
                 print("Failed to clear all data.") }
         }
+    }
+    func requestHealthKitAuthorization() {
+   
+    let healthKitManager = HealthKitManager()
+    healthKitManager.requestAuthorization()
     }
 }
 
