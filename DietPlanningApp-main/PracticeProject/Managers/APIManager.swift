@@ -8,6 +8,7 @@
 import SwiftUI
 import Foundation
 
+
 final class APIManager: ObservableObject {
     
     static let shared = APIManager()
@@ -15,6 +16,10 @@ final class APIManager: ObservableObject {
     @Published var imageArray: [OnlineImageModel] = []
     
     private let baseURL = "https://trackapi.nutritionix.com/v2/search/item"
+       private let foodSearchURL = "https://trackapi.nutritionix.com/v2/natural/nutrients"
+       
+       private let appID = "f784c79c"
+       private let appKey = "da5a32319b55edcbae5aab9bd2cdb5ce"
     
     // Load images from API
     func loadImagesFromAPIUrl() async {
@@ -66,4 +71,33 @@ final class APIManager: ObservableObject {
         let foodResponse = try decoder.decode(FoodsResponse.self, from: data)
         return foodResponse.foods
     }
-}
+    
+    func fetchFoodRecommendations(query: String) async throws -> [FoodItem] {
+            guard let url = URL(string: foodSearchURL) else {
+                throw URLError(.badURL)
+            }
+            
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("f784c79c", forHTTPHeaderField: "x-app-id")
+        request.addValue("da5a32319b55edcbae5aab9bd2cdb5ce", forHTTPHeaderField: "x-app-key")
+            let body: [String: Any] = [
+                "query": query,
+                "timezone": "US/Eastern"
+            ]
+            
+            request.httpBody = try? JSONSerialization.data(withJSONObject: body)
+            
+            let (data, response) = try await URLSession.shared.data(for: request)
+            
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                throw URLError(.badServerResponse)
+            }
+            
+            let decoder = JSONDecoder()
+            let foodResponse = try decoder.decode(FoodsResponse.self, from: data)
+            return foodResponse.foods
+        }
+    }
+
