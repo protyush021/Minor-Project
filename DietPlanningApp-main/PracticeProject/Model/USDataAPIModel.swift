@@ -15,6 +15,7 @@ struct USDAFoodItem: Decodable {
     let description: String?
     let brandOwner: String?
     let foodNutrients: [USDANutrient]?
+    let photoUrl: String?
 
     // Add a method to convert USDAFoodItem to your FoodItem model
     func toFoodItem() -> FoodItem {
@@ -36,7 +37,8 @@ struct USDAFoodItem: Decodable {
             nfSugars: foodNutrients?.first { $0.nutrientName == "Sugars, total including NLEA" }?.value,
             nfProtein: foodNutrients?.first { $0.nutrientName == "Protein" }?.value,
             nfPotassium: foodNutrients?.first { $0.nutrientName == "Potassium, K" }?.value,
-            nfP: foodNutrients?.first { $0.nutrientName == "Phosphorus, P" }?.value
+            nfP: foodNutrients?.first { $0.nutrientName == "Phosphorus, P" }?.value,
+            photoUrl: photoUrl
         )
     }
 }

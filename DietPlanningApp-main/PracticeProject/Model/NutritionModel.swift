@@ -48,10 +48,12 @@ struct FatSecretFood: Decodable {
             nfSugars: nil,
             nfProtein: nil,
             nfPotassium: nil,
-            nfP: nil
+            nfP: nil,
+            photoUrl: nil
         )
     }
 }
+
 
 
 struct FoodItem: Decodable {
@@ -73,6 +75,7 @@ struct FoodItem: Decodable {
     let nfProtein: Double?
     let nfPotassium: Double?
     let nfP: Double?
+    let photoUrl: String?
 
     enum CodingKeys: String, CodingKey {
         case foodName = "food_name"
@@ -93,6 +96,7 @@ struct FoodItem: Decodable {
         case nfProtein = "nf_protein"
         case nfPotassium = "nf_potassium"
         case nfP = "nf_p"
+        case photoUrl = "photo_url"  
     }
 }
 

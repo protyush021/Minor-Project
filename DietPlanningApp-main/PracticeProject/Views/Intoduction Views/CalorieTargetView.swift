@@ -10,7 +10,6 @@ import SwiftUI
 struct CalorieTargetView: View {
     
     @State var carCountData: Int = 1000
-    
     var selectedColorScheme : Int = 0
     var skipButtonBlockHandler : (() -> Void)?
 

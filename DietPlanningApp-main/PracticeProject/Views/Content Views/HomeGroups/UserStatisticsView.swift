@@ -13,9 +13,14 @@ import HealthKit
 struct UserStatisticsView: View {
     @Environment(\.modelContext) var formData
     @EnvironmentObject var vm: ScannerViewModel
+
+    @StateObject private var healthKitManager = HealthKitManagerHome()
+    @State var totalCaloriesStr : String = "0"
+=======
     
     @State var totalCaloriesStr: String = "0"  // Consumed calories
     @State var totalBurnedCaloriesStr: String = "0"  // Burned calories
+
     @State private var drawingStroke = false
     @State private var foodDataStorage: [CalorieModel] = []
     @State var userWorkout: [SheduleWorkoutModel] = []
@@ -30,6 +35,29 @@ struct UserStatisticsView: View {
                 Section {
                     ZStack {
                         RoundedRectangle(cornerRadius: 10)
+
+                            .fill(Color.textColor.opacity(0.1))
+                        HStack{
+                            VStack(alignment: .leading, spacing: 10){
+                                VStack(alignment: .leading) {
+                                    Text("Calories Burned")
+                                        .bold()
+                                        .font(.system(size: 14))
+                                        .foregroundStyle(Color.textColor)
+                                    HStack(spacing: 2) {
+                                        
+                                        Text("\(Int(healthKitManager.caloriesBurned))")
+                                            .font(.title)
+                                            .bold()
+                                            .foregroundStyle(Color.textColor)
+                                        Text("Kcal")
+                                            .font(.title3)
+                                            .foregroundStyle(Color.textColor)
+                                    }
+                                }
+                                VStack(alignment: .leading){
+                                    Text("Total Intake")
+
                             .fill(Color.blue.opacity(0.1))
                         HStack {
                             VStack(alignment: .leading, spacing: 10) {
@@ -37,6 +65,7 @@ struct UserStatisticsView: View {
                                 // Calorie Intake Section
                                VStack(alignment: .leading) {
                                     Text("Calories Consumed")
+
                                         .bold()
                                         .font(.system(size: 14))
                                         .foregroundStyle(Color.blue)
@@ -45,7 +74,7 @@ struct UserStatisticsView: View {
                                             .font(.title)
                                             .bold()
                                             .foregroundStyle(Color.pink)
-                                        Text("Kcal")
+                                        Text("Cal")
                                             .font(.title3)
                                             .foregroundStyle(Color.pink)
                                     }
@@ -76,10 +105,17 @@ struct UserStatisticsView: View {
                     }.frame(height: 185)
                         .listRowSeparator(.hidden)
                 }
+
+                
+            }.listStyle(PlainListStyle())
+                .navigationTitle("Weekly Statistics")
+                .navigationBarTitleDisplayMode(.inline)
+=======
             }
             .listStyle(PlainListStyle())
             .navigationTitle("Statistics")
             .navigationBarTitleDisplayMode(.inline)
+
         }
         .onAppear(perform: {
             requestAuthorization()

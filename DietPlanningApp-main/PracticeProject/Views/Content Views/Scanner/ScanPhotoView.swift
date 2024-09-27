@@ -447,8 +447,20 @@ struct ScanPhotoViewControllerWrapper: UIViewControllerRepresentable {
 }
 
 struct NutritionixResponse: Decodable {
-    let common: [FoodItem]
+    let foods: [Food]
+
+    struct Food: Decodable {
+        let foodName: String
+        let calories: Double?  // Update this based on the actual API field name
+        let photo: Photo
+        
+        struct Photo: Decodable {
+            let thumb: String
+        }
+    }
 }
+
+
 
 
 
